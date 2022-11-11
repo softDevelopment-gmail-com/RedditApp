@@ -1,0 +1,32 @@
+
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    uz.company.redditapp: debug
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/reddit
+    password: reddit
+    username: reddit
+    hikari:
+      pool-name: Hikari
+      auto-commit: false
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+application:
+  mail-config:
+    host: smtp.gmail.com
+    protocol: smtp
+    username: shukhratDev1201@gmail.com
+    password: 12012002shukhratjon
+server:
+  port: 8081
