@@ -1,7 +1,6 @@
 package uz.company.redditapp.config;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +12,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
+import org.springframework.web.filter.CorsFilter;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 import uz.company.redditapp.security.JWTConfigurer;
 import uz.company.redditapp.security.TokenProvider;
@@ -22,7 +23,6 @@ import uz.company.redditapp.security.TokenProvider;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @Import(SecurityProblemSupport.class)
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@AllArgsConstructor
 @Slf4j
 public class SecurityConfiguration {
 
@@ -30,12 +30,25 @@ public class SecurityConfiguration {
 
     TokenProvider tokenProvider;
 
+    CorsFilter corsFilter;
+
+    public SecurityConfiguration(SecurityProblemSupport problemSupport, TokenProvider tokenProvider, CorsFilter corsFilter) {
+        this.problemSupport = problemSupport;
+        this.tokenProvider = tokenProvider;
+        this.corsFilter = corsFilter;
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
-//                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(problemSupport)
                 .accessDeniedHandler(problemSupport)
@@ -52,18 +65,13 @@ public class SecurityConfiguration {
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic()
-                .and().apply(securityConfigurerAdapter());
+                .httpBasic().disable()
+                .apply(securityConfigurerAdapter());
         return http.build();
     }
 
     private JWTConfigurer securityConfigurerAdapter() {
         return new JWTConfigurer(tokenProvider);
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
 

@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ApplicationProperties {
 
     private final MailConfig mailConfig = new MailConfig();
+    private final SecurityConfig securityConfig = new SecurityConfig();
 
     @FieldDefaults(level = AccessLevel.PRIVATE)
     @Getter
@@ -29,5 +30,13 @@ public class ApplicationProperties {
 
         String protocol;
         String host;
+    }
+
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    @Getter
+    @Setter
+    public static class SecurityConfig {
+        String base64Secret;
+        Long tokenValidityInMillis;
     }
 }

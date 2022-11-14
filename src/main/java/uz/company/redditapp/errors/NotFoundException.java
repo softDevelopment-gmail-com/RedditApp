@@ -7,13 +7,14 @@ import org.zalando.problem.Status;
 
 @Getter
 @Setter
-public class EntityAlreadyExistException extends AbstractThrowableProblem {
+public class NotFoundException extends AbstractThrowableProblem {
 
     String userMessage;
+
     String developerMessage;
 
-    public EntityAlreadyExistException(String userMessage, String developerMessage) {
-        super(null, userMessage, Status.FOUND, developerMessage);
+    public NotFoundException(String userMessage, String developerMessage) {
+        super(null, userMessage, Status.NOT_FOUND, developerMessage);
         this.userMessage = userMessage;
         this.developerMessage = developerMessage;
     }

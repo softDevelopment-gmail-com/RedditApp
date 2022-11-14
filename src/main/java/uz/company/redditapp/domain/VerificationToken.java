@@ -1,6 +1,7 @@
 package uz.company.redditapp.domain;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "token")
+@EqualsAndHashCode
 public class VerificationToken extends SimpleEntity {
 
     @Column(name = "token")

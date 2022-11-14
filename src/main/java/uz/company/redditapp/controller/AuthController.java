@@ -23,7 +23,7 @@ public class AuthController {
     @PostMapping(ApiConstants.signUp)
     public ResponseEntity<String> signUp(@RequestBody RegisterDTO registerDto) {
         authService.signUp(registerDto);
-        return ResponseEntity.ok().body("Success");
+        return ResponseEntity.ok().build();
     }
 
 

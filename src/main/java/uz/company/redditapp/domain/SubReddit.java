@@ -1,6 +1,7 @@
 package uz.company.redditapp.domain;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users")
 public class SubReddit extends AbstractAuditingEntity {

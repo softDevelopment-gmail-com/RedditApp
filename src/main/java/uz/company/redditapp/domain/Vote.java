@@ -1,9 +1,6 @@
 package uz.company.redditapp.domain;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import uz.company.redditapp.enums.VoteType;
 
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Vote extends AbstractAuditingEntity {
 
     @Column(name = "vote_type")

@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Post extends AbstractAuditingEntity {
 
