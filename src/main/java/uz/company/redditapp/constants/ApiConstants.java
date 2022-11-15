@@ -8,4 +8,7 @@ public interface ApiConstants {
 
     String auth = rootApi + "/auth";
     String signUp = "/sign-up";
+    String verify = "/verify";
+    String login = "/login";
+    String subreddit = "/subreddit";
 }

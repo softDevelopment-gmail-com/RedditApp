@@ -18,17 +18,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    username: shukhratDev1201@gmail.com
-#    password: 12012002shukhratjonrayimjonov
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          starttls:
-#            enable: true
 
 
 application:
@@ -42,12 +31,3 @@ application:
     base64-secret: YjNlZjJlNjQ1ZWVjYWU1MTYzNmEzMDBlYzlmOGNhYzdiYzI5NGUzMjE4ODYwYzQzZmZmZGM2Yjk4YWI3YzYyZGJjYjMzYTIwNjBiZDVlNjEwNDE3NmY1OTU0NjJmZjI5ZDE3YTAzZTBiMjM0OGJlN2Y4MDI3N2E3OTU4MzBhODU
 server:
   port: 8081
-
-
-
-#spring.mail.host=smtp.gmail.com
-#spring.mail.port=587
-#spring.mail.username=<Login User to SMTP server>
-#spring.mail.password=<Login password to SMTP server>
-#spring.mail.properties.mail.smtp.auth=true
-#spring.mail.properties.mail.smtp.starttls.enable=true

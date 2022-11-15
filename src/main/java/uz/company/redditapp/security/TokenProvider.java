@@ -64,7 +64,7 @@ public class TokenProvider implements AuthConstants {
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
                 .claim(USER_ID, userId)
-                .signWith(key, SignatureAlgorithm.ES256)
+                .signWith(key, SignatureAlgorithm.HS512)
                 .setExpiration(new Date(System.currentTimeMillis() + tokenValidityInMillis))
                 .compact();
     }

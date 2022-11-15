@@ -1,19 +1,23 @@
 package uz.company.redditapp.errors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.zalando.problem.DefaultProblem;
 import org.zalando.problem.Problem;
 import org.zalando.problem.ProblemBuilder;
+import org.zalando.problem.StatusType;
 import org.zalando.problem.spring.web.advice.ProblemHandling;
 import org.zalando.problem.spring.web.advice.security.SecurityAdviceTrait;
 import org.zalando.problem.violations.ConstraintViolationProblem;
 
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
 import java.util.Optional;
 
 @RestControllerAdvice
@@ -86,5 +90,53 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
                 .withDetail(Optional.ofNullable(e.getDeveloperMessage()).orElse(e.getUserMessage()))
                 .build();
         return create(e, problem, request);
+    }
+
+    @Override
+    public ProblemBuilder prepare(final Throwable throwable, final StatusType status, final URI type) {
+        if (throwable instanceof HttpMessageConversionException) {
+            return Problem
+                    .builder()
+                    .withTitle(status.getReasonPhrase())
+                    .withStatus(status)
+                    .withDetail("Unable to convert http message")
+                    .withCause(
+                            Optional.ofNullable(throwable.getCause()).filter(cause -> isCausalChainsEnabled()).map(this::toProblem).orElse(null)
+                    );
+        }
+        if (throwable instanceof DataAccessException) {
+            return Problem
+                    .builder()
+                    .withTitle(status.getReasonPhrase())
+                    .withStatus(status)
+                    .withDetail("Failure during data access")
+                    .withCause(
+                            Optional.ofNullable(throwable.getCause()).filter(cause -> isCausalChainsEnabled()).map(this::toProblem).orElse(null)
+                    );
+        }
+        if (containsPackageName(throwable.getMessage())) {
+            return Problem
+                    .builder()
+                    .withTitle(status.getReasonPhrase())
+                    .withStatus(status)
+                    .withDetail("Unexpected runtime exception")
+                    .withCause(
+                            Optional.ofNullable(throwable.getCause()).filter(cause -> isCausalChainsEnabled()).map(this::toProblem).orElse(null)
+                    );
+        }
+
+
+        return Problem
+                .builder()
+                .withTitle(status.getReasonPhrase())
+                .withStatus(status)
+                .withDetail(throwable.getMessage())
+                .withCause(
+                        Optional.ofNullable(throwable.getCause()).filter(cause -> isCausalChainsEnabled()).map(this::toProblem).orElse(null)
+                );
+    }
+
+    private boolean containsPackageName(String message) {
+        return StringUtils.containsAny(message, "org.", "java.", "net.", "javax.", "com.", "io.", "de.", "uz.company.redditapp");
     }
 }

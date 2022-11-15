@@ -16,10 +16,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class AbstractAuditingEntity extends SimpleEntity implements Serializable {
 
-    private static final long serialVersionUId = 3L;
-
-    @Column(name = "deleted", columnDefinition = "boolean default false")
-    protected boolean deleted = false;
+    private static final long serialVersionUID = 3L;
 
     @Column(name = "created_by")
     @CreatedBy

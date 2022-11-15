@@ -3,10 +3,7 @@ package uz.company.redditapp.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Getter
@@ -18,5 +15,8 @@ public abstract class SimpleEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    protected Long id;
+
+    @Column(name = "deleted")
+    protected boolean deleted=false;
 }
