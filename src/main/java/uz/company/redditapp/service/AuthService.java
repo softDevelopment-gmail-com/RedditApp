@@ -21,6 +21,7 @@ import uz.company.redditapp.dto.TokenDTO;
 import uz.company.redditapp.enums.Role;
 import uz.company.redditapp.errors.EntityAlreadyExistException;
 import uz.company.redditapp.errors.NotFoundException;
+import uz.company.redditapp.rabbitmq.RabbitMqEmailSendConsumer;
 import uz.company.redditapp.repository.AuthorityRepository;
 import uz.company.redditapp.repository.UserRepository;
 import uz.company.redditapp.repository.VerificationTokenRepository;
@@ -37,6 +38,7 @@ import java.util.Set;
 public class AuthService {
 
     PasswordEncoder passwordEncoder;
+    RabbitMqEmailSendConsumer rabbitMqEmailSendConsumer;
     AuthorityRepository authorityRepository;
     UserRepository userRepository;
     AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -73,7 +75,7 @@ public class AuthService {
                 .body("Thank you for signing up to Reddit, please click on the below url to activate your account: " +
                         "http://localhost:8081/api/v1/auth/verify/" + token)
                 .build();
-        mailService.sendEmail(notificationEmailDTO);
+        rabbitMqEmailSendConsumer.send(notificationEmailDTO);
     }
 
     @Transactional

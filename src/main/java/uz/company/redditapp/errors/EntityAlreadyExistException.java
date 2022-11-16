@@ -13,7 +13,7 @@ public class EntityAlreadyExistException extends AbstractThrowableProblem {
     String developerMessage;
 
     public EntityAlreadyExistException(String userMessage, String developerMessage) {
-        super(null, userMessage, Status.FOUND, developerMessage);
+        super(null, userMessage, Status.CONFLICT, developerMessage);
         this.userMessage = userMessage;
         this.developerMessage = developerMessage;
     }
