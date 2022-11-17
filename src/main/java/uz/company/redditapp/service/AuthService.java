@@ -85,7 +85,7 @@ public class AuthService {
         ));
 
         String username = verificationToken.get().getUser().getUsername();
-        User user = userRepository.findOneWithAuthoritiesByUsernameAndDeletedFalse(username).orElseThrow(() ->
+        User user = userRepository.findByUsernameAndDeletedFalse(username).orElseThrow(() ->
                 new NotFoundException("username not found", "user with this username not found")
         );
         user.setEnabled(true);

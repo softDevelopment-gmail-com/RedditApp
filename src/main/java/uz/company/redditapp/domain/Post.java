@@ -37,5 +37,11 @@ public class Post extends AbstractAuditingEntity {
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     User user;
 
+    @Column(name = "subreddit_id")
+    Long subredditId;
+
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "subreddit_id", insertable = false, updatable = false)
+    SubReddit subReddit;
 
 }

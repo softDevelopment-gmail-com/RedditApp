@@ -13,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,8 +24,9 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @SQLDelete(sql = "UPDATE users set deleted='true' where id=?")
 @EqualsAndHashCode
-public class User extends AbstractAuditingEntity {
+public class User extends AbstractAuditingEntity implements Serializable {
 
+    final static long serialVersionUID = 64634L;
     @Column(name = "username")
     @NotBlank(message = "Username is required")
     String username;

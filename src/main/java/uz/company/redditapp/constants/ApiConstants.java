@@ -11,4 +11,12 @@ public interface ApiConstants {
     String verify = "/verify";
     String login = "/login";
     String subreddit = "/subreddit";
+
+    String subredditRootApi = rootApi + subreddit;
+    String all = "/all";
+    String id = "/{id}";
+    String post = "/posts";
+    String posts = rootApi + post;
+    String byUser = "/{userId}";
+    String bySubreddit = "/{subredditId}";
 }
